@@ -21,5 +21,6 @@ namespace ERA_WebAPI.ERA.Models
         public Category Category { get; set; }
         public string Description{ get; set; }
         public bool IsDeleted { get; set; }
+        public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new HashSet<OrderDetails>();
     }
 }

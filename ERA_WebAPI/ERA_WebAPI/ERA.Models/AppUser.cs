@@ -9,7 +9,9 @@ namespace ERA_WebAPI.ERA.Models
     public class AppUser : IdentityUser
     {
         public AppUser()
-            : base() { }
+            : base() { 
+        
+        }
 
         public AppUser(string userName)
             : base(userName) { }
@@ -19,5 +21,6 @@ namespace ERA_WebAPI.ERA.Models
         public Gender Gender { get; set; }
         public string ProfilePic { get; set; }
         public FullName FullName { get; set; }
+        public virtual ICollection<Order> Order { get; set; }= new HashSet<Order>();
     }
 }
