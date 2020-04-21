@@ -38,6 +38,9 @@ namespace ERA_WebAPI
                 options.UseSqlServer(Configuration.GetConnectionString("ERAContextConnection"));
             });
 
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -55,7 +58,7 @@ namespace ERA_WebAPI
             {
                 options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
-                    
+
                     ValidateIssuer = true,
                     ValidateAudience = true,
                     ValidAudience = Configuration["AuthSettings:Audience"],
@@ -72,7 +75,6 @@ namespace ERA_WebAPI
 
             services.AddSwaggerDocument();
             services.AddMvc();
-            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,7 +97,7 @@ namespace ERA_WebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-               // endpoints.MapRazorPages();
+                // endpoints.MapRazorPages();
             });
         }
     }
