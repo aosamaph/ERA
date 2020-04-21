@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ERA_WebAPI.Data;
 using ERA_WebAPI.ERA.Models;
 using ERA_WebAPI.ERA.Models.UserModels.services;
+using ERA_WebAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -67,6 +68,8 @@ namespace ERA_WebAPI
             });
 
             services.AddTransient<IUserService, userService>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+
             services.AddSwaggerDocument();
             services.AddMvc();
             services.AddControllers();

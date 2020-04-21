@@ -1,4 +1,5 @@
 ﻿using ERA_WebAPI.ERA.Models.UserModels.responseMessage;
+using ERA_WebAPI.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -24,12 +25,13 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
     {
         private UserManager<AppUser> _userManger;
         private IConfiguration _configuration;
+        
 
         public userService(UserManager<AppUser> userManager, IConfiguration configuration)
         {
             _userManger = userManager;
             _configuration = configuration;
-
+            
         }
 
 
@@ -57,9 +59,13 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
             };
 
             var result = await _userManger.CreateAsync(user, registerModel.Password);
+            
 
             if (result.Succeeded)
             {
+
+                var newUser = await _userManger.FindByEmailAsync(registerModel.Email);
+
                 #region confirmEmail
 
                 //var confirmEmailToken = await _userManger.GenerateEmailConfirmationTokenAsync(identityUser);
@@ -80,13 +86,15 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
                     Message = "User created successfully!",
                     IsSuccess = true,
                 };
+
             }
 
             return new ResponseMessage
             {
                 Message = "User did not create",
                 IsSuccess = false,
-                Errors = result.Errors.Select(e => e.Description)
+                Errors = result.Errors.Select(e => e.Description),
+
             };
         }
 

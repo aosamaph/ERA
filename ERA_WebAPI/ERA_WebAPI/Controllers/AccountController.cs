@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERA_WebAPI.ERA.Models.UserModels;
 using ERA_WebAPI.ERA.Models.UserModels.services;
+using ERA_WebAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,13 @@ namespace ERA_WebAPI.Controllers
     public class AccountController : ControllerBase
     {
         private IUserService _userService;
+
+     
+
         public AccountController(IUserService userService)
         {
             _userService = userService;
-
+          
         }
 
 
@@ -29,8 +33,10 @@ namespace ERA_WebAPI.Controllers
                 var result = await _userService.RegisterUserAsync(model);
 
                 if (result.IsSuccess)
+                {
+                  
                     return Ok(result); // Status Code: 200 
-
+                }
                 return BadRequest(result);
             }
 
