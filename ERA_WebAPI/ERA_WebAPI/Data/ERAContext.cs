@@ -90,6 +90,6 @@ namespace ERA_WebAPI.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         //public DbSet<OrderDetails> OrderDetails { get; set; }
-        //public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<ProductImage> ProductImages { get; set; }
     }
 }

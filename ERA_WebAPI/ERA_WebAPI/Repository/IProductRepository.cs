@@ -16,7 +16,9 @@ namespace ERA_WebAPI.Repository
         public List<Product> GetByName(string name);
         public List<Product> GetByCategory(Category category);
         public Product AddDiscount(decimal discount, int id);
-        public Product AddImage(ProductImage image,int id);
+        public Product AddImage(ProductImage image);
+        public Product DeleteImage(ProductImage image);
+
 
     }
 }

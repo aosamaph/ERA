@@ -44,37 +44,46 @@ namespace ERA_WebAPI.Repository
         }
         public List<Product> GetAllProducts()
         {
-            return DB.Products.Include("Image").ToList();
+            return DB.Products.Where(p=>p.IsDeleted != true).Include("Image").ToList();
         }
 
         public Product GetByID(int ID)
         {
-            var product = DB.Products.Include("Image").FirstOrDefault(p=>p.ProductID==ID);
+            var product = DB.Products.Include("Image").FirstOrDefault(p => p.ProductID == ID && p.IsDeleted != true); 
             return product;
         }
 
         //[Route("api/controller/{name:alpha}")] fel controller
         public List<Product> GetByName(string name)
         {
-            var product = DB.Products.Include("Image").Where(p=>p.ProductName.Contains(name));
+            var product = DB.Products.Include("Image").Where(p => p.ProductName.Contains(name) && p.IsDeleted != true); 
            
             return product.ToList();
         }
 
         public List<Product> GetByCategory(Category category)
         {
-            var product = DB.Products.Include("Image").Where(p => p.Category==(category));
+            var product = DB.Products.Include("Image").Where(p => p.Category==(category)&&p.IsDeleted != true);
             return product.ToList();
         }
 
-        public Product AddImage(ProductImage image,int id)
+        public Product AddImage(ProductImage image)
         {
-            var p = GetByID(id);
+            var p = GetByID(image.ProductID);
             p.Image.Add(image);
             DB.SaveChanges();
             return p;
         }
-
+        public Product DeleteImage(ProductImage image)
+        {
+            var p = GetByID(image.ProductID);
+            var trackedItem = p.Image.SingleOrDefault(pp => pp.ProductID == image.ProductID && pp.ImagePath == image.ImagePath);
+            if (trackedItem == null)
+                return null;
+            p.Image.Remove(trackedItem);
+            DB.SaveChanges();
+            return p;
+        }
         public Product AddDiscount(decimal discount,int id)
         {
             var product = GetByID(id);
@@ -82,6 +91,8 @@ namespace ERA_WebAPI.Repository
             DB.SaveChanges();
             return product;
         }
+        
+
 
     }
 }

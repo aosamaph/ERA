@@ -77,7 +77,7 @@ namespace ERA_WebAPI.Controllers
         public ActionResult<Product> CreateProduct(Product product)
         {
             productRepository.CreateProduct(product);
-                 
+
             return CreatedAtAction("GetProduct", new { id = product.ProductID }, product);
         }
 
@@ -90,7 +90,7 @@ namespace ERA_WebAPI.Controllers
         }
 
         [HttpGet("{name:alpha}")]
-        [Route("{name}")]
+        // [Route("{name}")]
         public ActionResult<List<Product>> GetProductByName(string name)
         {
 
@@ -116,22 +116,30 @@ namespace ERA_WebAPI.Controllers
 
         }
 
-       /* [HttpPost("{id}")]
-        [Route("[action]/{id}")]
-        public ActionResult<Product> Discount([FromBody] decimal discount, int id)
+        [HttpPut("discount/{id}")]
+        public ActionResult<Product> Discount(int id, [FromBody] decimal discount)
         {
-            var product=productRepository.AddDiscount(discount, id);
+            var product = productRepository.AddDiscount(discount, id);
             if (product == null)
                 return NotFound();
             else
                 return Ok(product);
-        }*/
-        
-        [HttpPut("{id}")]
-        [Route("[action]/{id}")]
-        public ActionResult<Product> Images(ProductImage image,int id)
+        }
+
+        [HttpPut("image")]
+        public ActionResult<Product> Images(ProductImage image)
         {
-            var product = productRepository.AddImage(image,id);
+            var product = productRepository.AddImage(image);
+            if (product == null)
+                return NotFound();
+            else
+                return Ok(product);
+        }
+
+        [HttpDelete("image")]
+        public ActionResult<Product> DeleteImages(ProductImage image)
+        {
+            var product = productRepository.DeleteImage(image);
             if (product == null)
                 return NotFound();
             else

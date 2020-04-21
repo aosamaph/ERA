@@ -72,6 +72,8 @@ namespace ERA_WebAPI
 
             services.AddTransient<IUserService, userService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>(); 
+
 
             services.AddSwaggerDocument();
             services.AddMvc();
