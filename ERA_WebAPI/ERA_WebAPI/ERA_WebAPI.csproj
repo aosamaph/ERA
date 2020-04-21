@@ -11,13 +11,21 @@
     <Compile Remove="Migrations\20200414195350_orders.Designer.cs" />
     <Compile Remove="Migrations\20200414195943_orders.cs" />
     <Compile Remove="Migrations\20200414195943_orders.Designer.cs" />
+    <Compile Remove="Migrations\20200420083739_testt.cs" />
+    <Compile Remove="Migrations\20200420083739_testt.Designer.cs" />
+    <Compile Remove="Migrations\20200420154907_someChanges.cs" />
+    <Compile Remove="Migrations\20200420154907_someChanges.Designer.cs" />
+    <Compile Remove="Migrations\20200420155222_someChanges.cs" />
+    <Compile Remove="Migrations\20200420155222_someChanges.Designer.cs" />
+    <Compile Remove="Migrations\20200421091113_checking.cs" />
+    <Compile Remove="Migrations\20200421091113_checking.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
@@ -25,8 +33,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.4.1" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 
 </Project>

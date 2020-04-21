@@ -7,6 +7,6 @@ namespace ERA_WebAPI.ERA.Models
 {
     public enum OrderStatus
     {
-       inCart,pending,accepted,rejected,cancelled
+        inCart, pending, accepted, rejected, cancelled
     }
 }
