@@ -17,7 +17,6 @@ namespace ERA_WebAPI.ERA.Models
         public OrderStatus? Status { get; set; }
         public decimal? TotalPrice { get; set; }
         public string UserId { get; set; }
-
         public virtual AppUser User { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }

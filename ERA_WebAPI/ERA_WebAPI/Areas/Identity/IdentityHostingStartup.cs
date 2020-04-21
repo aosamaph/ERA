@@ -14,14 +14,14 @@ namespace ERA_WebAPI.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-            builder.ConfigureServices((context, services) => {
-                services.AddDbContext<ERAContext>(options =>
+           /* builder.ConfigureServices((context, services) => {
+                /*services.AddDbContext<ERAContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("ERAContextConnection")));
 
                 services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddEntityFrameworkStores<ERAContext>();
-            });
+            });*/
         }
     }
 }
