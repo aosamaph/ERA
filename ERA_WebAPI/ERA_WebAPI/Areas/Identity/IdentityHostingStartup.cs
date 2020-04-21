@@ -1,5 +1,6 @@
 ﻿using System;
 using ERA_WebAPI.Data;
+using ERA_WebAPI.ERA.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -14,14 +15,23 @@ namespace ERA_WebAPI.Areas.Identity
     {
         public void Configure(IWebHostBuilder builder)
         {
-           /* builder.ConfigureServices((context, services) => {
-                /*services.AddDbContext<ERAContext>(options =>
-                    options.UseSqlServer(
-                        context.Configuration.GetConnectionString("ERAContextConnection")));
+            builder.ConfigureServices((context, services) => {
+                #region Old service moved to startup
+                //services.AddDbContext<ERAContext>(options =>
+                //    options.UseSqlServer(
+                //        context.Configuration.GetConnectionString("ERAContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<ERAContext>();
-            });*/
+
+
+                //services.AddIdentity<AppUser, IdentityRole>(options =>
+                //{
+                //    options.Password.RequireDigit = true;
+                //    options.Password.RequireLowercase = true;
+                //    options.Password.RequiredLength = 5;
+                //}).AddEntityFrameworkStores<ERAContext>(); 
+                #endregion
+
+            });
         }
     }
 }

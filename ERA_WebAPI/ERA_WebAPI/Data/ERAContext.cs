@@ -14,8 +14,7 @@ namespace ERA_WebAPI.Data
     {
         public ERAContext(DbContextOptions<ERAContext> options)
             : base(options)
-        {
-        }
+        { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -42,10 +41,11 @@ namespace ERA_WebAPI.Data
 
             builder.Entity<ProductImage>().HasKey(i => new { i.ProductID, i.ImagePath });
 
+            builder.Entity<Order>().HasMany(o => o.OrderDetails).WithOne();
 
             builder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.OrderId).ValueGeneratedNever();
+                entity.Property(e => e.OrderId);
 
                 entity.Property(e => e.Date).HasColumnType("date");
 
@@ -72,11 +72,11 @@ namespace ERA_WebAPI.Data
                 entity.Property(e => e.NumberOfItems).HasDefaultValue(1);
                 
 
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OrderDetails_Order1");
+                //entity.HasOne(d => d.Order)
+                //    .WithMany(p => p.OrderDetails)
+                //    .HasForeignKey(d => d.OrderId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_OrderDetails_Order1");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
@@ -89,7 +89,7 @@ namespace ERA_WebAPI.Data
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
-        // public DbSet<OrderDetails> OrderDetails { get; set; }
-        public DbSet<ProductImage> ProductImages { get; set; }
+        //public DbSet<OrderDetails> OrderDetails { get; set; }
+        //public DbSet<ProductImage> ProductImages { get; set; }
     }
 }
