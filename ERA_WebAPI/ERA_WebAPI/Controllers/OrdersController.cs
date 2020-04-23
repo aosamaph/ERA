@@ -28,7 +28,7 @@ namespace ERA_WebAPI.Controllers
         // Admin can view all orders(pending, accepted, rejected)
         // View all orders (username,date,total price,product titles only)
         [HttpGet("[controller]")]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<IEnumerable<Order>> GetOrders()
         {
             //var LoggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -40,6 +40,7 @@ namespace ERA_WebAPI.Controllers
         // or to change quantities
         // or to submit order
         [HttpGet("Cart/{user}")]
+        [Authorize(Roles = "user")]
         public ActionResult<Order> GetUserCart(string user)
         {
             var order = orderRepository.GetUserCart(user);
@@ -53,6 +54,7 @@ namespace ERA_WebAPI.Controllers
         // GET: api/Orders/123
         // User can view all his orders (pending, accepted, rejected)
         [HttpGet("[controller]/{user}")]
+        [Authorize(Roles = "user")]
         public ActionResult<IEnumerable<Order>> GetUserOrders(string user)
         {
             var orders = orderRepository.GetOrdersByUserId(user).ToList();
@@ -65,6 +67,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Orders/accept/1
         // Admin can Accept the order
         [HttpPut("[Controller]/accept/{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<Order> AcceptOrder(int id)
         {
             var order = orderRepository.GetOrder(id);
@@ -81,6 +84,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Orders/reject/1
         // Admin can Reject the order
         [HttpPut("[Controller]/reject/{id}")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<Order> RejectOrder(int id)
         {
             var success = orderRepository.RejectOrder(id);
@@ -91,6 +95,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Orders/cancel/1
         // User can Cancel the order
         [HttpPut("[Controller]/cancel/{id}")]
+        [Authorize(Roles = "user")]
         public ActionResult<Order> CancelOrder(int id)
         {
             var success = orderRepository.CancelOrder(id);
@@ -101,6 +106,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Orders/submit/1
         // User can Submit the order
         [HttpPut("[Controller]/submit/{id}")]
+        [Authorize(Roles = "user")]
         public ActionResult<Order> SubmitOrder(int id)
         {
             var success = orderRepository.SubmitOrder(id);
@@ -113,6 +119,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Cart/123
         // User can Add product to his cart
         [HttpPost("Cart/{user}")]
+        [Authorize(Roles = "user")]
         public ActionResult<Order> AddToCart([FromBody] OrderDetails item)
         {
             var success = orderRepository.AddToCart(item);
@@ -125,6 +132,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Cart/123
         // User can Remove product from his cart
         [HttpDelete("Cart/{user}")]
+        [Authorize(Roles = "user")]
         public ActionResult<Order> RemoveFromCart([FromBody] OrderDetails item)
         {
             var success = orderRepository.RemoveFromCart(item);
@@ -137,6 +145,7 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Cart/123
         // User can Remove product from his cart
         [HttpPut("Cart/{user}")]
+        [Authorize(Roles = "user")]
         public ActionResult<Order> ChangeQuantity([FromBody] OrderDetails item)
         {
             var success = orderRepository.EditItemQuantity(item);

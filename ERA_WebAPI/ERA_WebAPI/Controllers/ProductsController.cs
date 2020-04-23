@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ERA_WebAPI.Data;
 using ERA_WebAPI.ERA.Models;
 using ERA_WebAPI.Repository;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace ERA_WebAPI.Controllers
 {
@@ -23,9 +23,8 @@ namespace ERA_WebAPI.Controllers
             this.productRepository = productRepository;
         }
 
-        // GET: api/Products1
+        // GET: api/Products
         [HttpGet]
-        [Route("")]
         public ActionResult<List<Product>> GetProducts()
         {
             List<Product> products = productRepository.GetAllProducts();
@@ -37,6 +36,7 @@ namespace ERA_WebAPI.Controllers
 
         // GET: api/Products/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin, user")]
         public ActionResult<Product> GetProduct(int id)
         {
             var product = productRepository.GetByID(id);
@@ -55,6 +55,7 @@ namespace ERA_WebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public IActionResult PutProduct(int id, Product product)
         {
             if (id != product.ProductID)
@@ -74,6 +75,7 @@ namespace ERA_WebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public ActionResult<Product> CreateProduct(Product product)
         {
             productRepository.CreateProduct(product);
@@ -83,6 +85,7 @@ namespace ERA_WebAPI.Controllers
 
         // DELETE: api/Products1/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public ActionResult<Product> DeleteProduct(int id)
         {
             productRepository.DeleteProduct(id);
@@ -90,7 +93,7 @@ namespace ERA_WebAPI.Controllers
         }
 
         [HttpGet("{name:alpha}")]
-        // [Route("{name}")]
+        [Authorize(Roles = "admin, user")]
         public ActionResult<List<Product>> GetProductByName(string name)
         {
 
@@ -104,6 +107,7 @@ namespace ERA_WebAPI.Controllers
 
         [HttpGet]
         [Route("[action]/{category}")]
+        [Authorize(Roles = "admin, user")]
         public ActionResult<List<Product>> Category(Category category)
         {
 
@@ -117,6 +121,7 @@ namespace ERA_WebAPI.Controllers
         }
 
         [HttpPut("discount/{id}")]
+        [Authorize(Roles = "admin")]
         public ActionResult<Product> Discount(int id, [FromBody] decimal discount)
         {
             var product = productRepository.AddDiscount(discount, id);
@@ -127,6 +132,7 @@ namespace ERA_WebAPI.Controllers
         }
 
         [HttpPut("image")]
+        [Authorize(Roles = "admin")]
         public ActionResult<Product> Images(ProductImage image)
         {
             var product = productRepository.AddImage(image);
@@ -137,6 +143,7 @@ namespace ERA_WebAPI.Controllers
         }
 
         [HttpDelete("image")]
+        [Authorize(Roles = "admin")]
         public ActionResult<Product> DeleteImages(ProductImage image)
         {
             var product = productRepository.DeleteImage(image);
