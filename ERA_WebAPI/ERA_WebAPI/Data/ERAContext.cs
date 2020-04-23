@@ -22,6 +22,11 @@ namespace ERA_WebAPI.Data
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
+            builder.Entity<IdentityRole>().HasData(
+                new {Id="1",Name="admin", NormalizedName="ADMIN"},
+                new { Id = "2", Name = "user", NormalizedName = "USER" }
+            );
+            
             builder.Entity<AppUser>(table =>
             {
                 table.OwnsOne(

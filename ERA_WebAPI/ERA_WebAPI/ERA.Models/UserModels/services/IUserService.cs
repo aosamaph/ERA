@@ -63,9 +63,10 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
 
             if (result.Succeeded)
             {
+                //it is for add role
+               await _userManger.AddToRoleAsync(user, "user");
 
-                var newUser = await _userManger.FindByEmailAsync(registerModel.Email);
-
+                //for confirmEmail
                 #region confirmEmail
 
                 //var confirmEmailToken = await _userManger.GenerateEmailConfirmationTokenAsync(identityUser);
@@ -83,7 +84,7 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
 
                 return new ResponseMessage
                 {
-                    Message = "User created successfully!",
+                    Message = $"User created successfully!{user.Email}",
                     IsSuccess = true,
                 };
 
@@ -127,6 +128,7 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
             {
                 new Claim("Email", model.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Role,"user")
             };
 
             //create key 
@@ -203,8 +205,11 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
             user.Email = newUser.Email;
             user.Age = newUser.Age;
             user.Gender = newUser.Gender;
-            user.FullName.FirstName = newUser.FullName.FirstName;
-            user.FullName.LastName = newUser.FullName.LastName;
+            if (user.FullName != null)
+            {
+                user.FullName.FirstName = newUser.FullName.FirstName;
+                user.FullName.LastName = newUser.FullName.LastName;
+            }
             //gender
 
             await _userManger.UpdateAsync(user);

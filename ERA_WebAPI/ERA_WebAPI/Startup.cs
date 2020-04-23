@@ -8,6 +8,7 @@ using ERA_WebAPI.ERA.Models;
 using ERA_WebAPI.ERA.Models.UserModels.services;
 using ERA_WebAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -72,8 +73,15 @@ namespace ERA_WebAPI
 
             services.AddTransient<IUserService, userService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>(); 
+            services.AddScoped<IProductRepository, ProductRepository>();
+            //services.AddAuthorization(option =>
+            //{
+            //    option.AddPolicy("UserRoles", policy => policy.RequireRole("user").RequireAuthenticatedUser());
+            //    option.AddPolicy("AdminRoles", policy => policy.RequireRole("Admin"));
 
+            //    option.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme).RequireAuthenticatedUser().Build();
+
+            //});
 
             services.AddSwaggerDocument();
             services.AddMvc();

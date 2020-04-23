@@ -7,6 +7,7 @@ using ERA_WebAPI.ERA.Models;
 using ERA_WebAPI.ERA.Models.UserModels;
 using ERA_WebAPI.ERA.Models.UserModels.responseMessage;
 using ERA_WebAPI.ERA.Models.UserModels.services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -30,7 +31,8 @@ namespace ERA_WebAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
+        [Authorize(Roles = "user")]
         public async Task<IActionResult> getbyId(string Id)
         {
             if (Id == null) return BadRequest("Null ID!!");
@@ -52,8 +54,9 @@ namespace ERA_WebAPI.Controllers
 
         }
 
-        [HttpPut("Edit")]
-        public async Task<IActionResult> EditUserAsync(AppUser user, string id)
+        [HttpPut("Edit/{id}")]
+        [Authorize(Roles="user")]
+        public async Task<IActionResult> EditUserAsync([FromBody]AppUser user, string id)
         {
             if (id == null) return BadRequest("Null ID!!");
 
