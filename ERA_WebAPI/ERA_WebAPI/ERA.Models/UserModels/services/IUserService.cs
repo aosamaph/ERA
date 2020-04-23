@@ -103,6 +103,8 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
         {
             var user = await _userManger.FindByEmailAsync(model.Email);
 
+            var role = await _userManger.GetRolesAsync(user);
+
             if (user == null)
             {
                 return new ResponseMessage
@@ -124,12 +126,16 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
 
             //user Info
             #region Jwt
-            var claims = new[]
+
+            var claims = new List<Claim>();
+
+            claims.Add(new Claim("Email", model.Email));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id)); 
+            foreach (var r in role)
             {
-                new Claim("Email", model.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Role,"user")
-            };
+                claims.Add(new Claim(ClaimTypes.Role, r));
+            }
+
 
             //create key 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
