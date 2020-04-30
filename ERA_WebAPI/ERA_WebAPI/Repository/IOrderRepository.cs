@@ -22,5 +22,6 @@ namespace ERA_WebAPI.Repository
         bool EditItemQuantity(OrderDetails item);
         void CalculateTotalPrice(Order order);
         bool UpdateUnitsInStock(Order order);
+        bool ReturnUnitsInStock(Order order);
     }
 }

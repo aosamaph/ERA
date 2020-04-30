@@ -129,6 +129,7 @@ namespace ERA_WebAPI.Repository
         public IQueryable<Order> GetAll()
         {
             return context.Orders.Where(o => o.Status != OrderStatus.cancelled && o.Status != OrderStatus.inCart)
+                .Include(o => o.User)
                 .Include(o => o.OrderDetails)
                 .ThenInclude(o => o.Product);
         }
@@ -181,9 +182,16 @@ namespace ERA_WebAPI.Repository
                 return false;
             order.Status = OrderStatus.pending;
             order.Date = DateTime.Now;
-            context.Entry(order).State = EntityState.Modified;
-            context.SaveChanges();
-            return true;
+            try
+            {
+                context.Entry(order).State = EntityState.Modified;
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public void CalculateTotalPrice(Order order)
@@ -209,6 +217,19 @@ namespace ERA_WebAPI.Repository
             foreach (var item in order.OrderDetails)
             {
                 item.Product.UnitsInStock -= item.NumberOfItems;
+            }
+            return true;
+        }
+        public bool ReturnUnitsInStock(Order order)
+        {
+            foreach (var item in order.OrderDetails)
+            {
+                if (item.NumberOfItems > item.Product.UnitsInStock)
+                    return false;
+            }
+            foreach (var item in order.OrderDetails)
+            {
+                item.Product.UnitsInStock += item.NumberOfItems;
             }
             return true;
         }

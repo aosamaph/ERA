@@ -28,7 +28,7 @@ namespace ERA_WebAPI.Controllers
         // Admin can view all orders(pending, accepted, rejected)
         // View all orders (username,date,total price,product titles only)
         [HttpGet("[controller]")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public ActionResult<IEnumerable<Order>> GetOrders()
         {
             //var LoggedInUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -67,16 +67,13 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Orders/accept/1
         // Admin can Accept the order
         [HttpPut("[Controller]/accept/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public ActionResult<Order> AcceptOrder(int id)
         {
             var order = orderRepository.GetOrder(id);
             if (order == null)
                 return BadRequest();
-            var success = orderRepository.UpdateUnitsInStock(order);
-            if (!success)
-                return BadRequest("No enough units in stock");
-            success = orderRepository.AcceptOrder(id);
+            var success = orderRepository.AcceptOrder(id);
             if (!success)
                 return BadRequest();
             return order;
@@ -84,13 +81,19 @@ namespace ERA_WebAPI.Controllers
         // PUT: api/Orders/reject/1
         // Admin can Reject the order
         [HttpPut("[Controller]/reject/{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public ActionResult<Order> RejectOrder(int id)
         {
-            var success = orderRepository.RejectOrder(id);
+            var order = orderRepository.GetOrder(id);
+            if (order == null)
+                return BadRequest();
+            var success = orderRepository.ReturnUnitsInStock(order);
             if (!success)
                 return BadRequest();
-            return orderRepository.GetOrder(id);
+            success = orderRepository.RejectOrder(id);
+            if (!success)
+                return BadRequest();
+            return order;
         }
         // PUT: api/Orders/cancel/1
         // User can Cancel the order
@@ -98,10 +101,16 @@ namespace ERA_WebAPI.Controllers
         [Authorize(Roles = "user")]
         public ActionResult<Order> CancelOrder(int id)
         {
-            var success = orderRepository.CancelOrder(id);
+            var order = orderRepository.GetOrder(id);
+            if (order == null)
+                return BadRequest();
+            var success = orderRepository.ReturnUnitsInStock(order);
             if (!success)
                 return BadRequest();
-            return orderRepository.GetOrder(id);
+            success = orderRepository.CancelOrder(id);
+            if (!success)
+                return BadRequest();
+            return order;
         }
         // PUT: api/Orders/submit/1
         // User can Submit the order
@@ -109,10 +118,15 @@ namespace ERA_WebAPI.Controllers
         [Authorize(Roles = "user")]
         public ActionResult<Order> SubmitOrder(int id)
         {
-            var success = orderRepository.SubmitOrder(id);
+            var order = orderRepository.GetOrder(id);
+            if (order == null)
+                return BadRequest();
+            var success = orderRepository.UpdateUnitsInStock(order);
+            if (!success)
+                return BadRequest("No enough units in stock");
+            success = orderRepository.SubmitOrder(id);
             if (!success)
                 return BadRequest();
-            var order = orderRepository.GetOrder(id);
             orderRepository.CreateUserCart(order.UserId);
             return order;
         }

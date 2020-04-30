@@ -28,12 +28,25 @@ namespace ERA_WebAPI
         {
             Configuration = configuration;
         }
+        string MyAllowSpecificOrigins = "m";
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // allowing CORS
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+                });
+            });
+
             services.AddDbContext<ERAContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("ERAContextConnection"));
@@ -95,6 +108,7 @@ namespace ERA_WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseOpenApi();
             app.UseSwaggerUi3();
