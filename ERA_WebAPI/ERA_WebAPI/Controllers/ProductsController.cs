@@ -55,17 +55,17 @@ namespace ERA_WebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        [Authorize(Roles = "admin")]
-        public IActionResult PutProduct(int id, Product product)
+       // [Authorize(Roles = "admin")]
+        public IActionResult PutProduct(int id,Product product)
         {
             if (id != product.ProductID)
             {
                 return BadRequest();
             }
             else
-            {
+           {
                 productRepository.UpdateProduct(id, product);
-                return Ok();
+                return Ok(product);
             }
 
         }
@@ -75,7 +75,7 @@ namespace ERA_WebAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        [Authorize(Roles = "admin")]
+       //// [Authorize(Roles = "admin")]
         public ActionResult<Product> CreateProduct(Product product)
         {
             productRepository.CreateProduct(product);
