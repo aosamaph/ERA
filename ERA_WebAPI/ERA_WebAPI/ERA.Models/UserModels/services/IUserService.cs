@@ -130,10 +130,12 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
             var claims = new List<Claim>();
 
             claims.Add(new Claim("Email", model.Email));
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id)); 
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+            claims.Add(new Claim("ID", user.Id));
             foreach (var r in role)
             {
                 claims.Add(new Claim(ClaimTypes.Role, r));
+                claims.Add(new Claim("Role", r));
             }
 
 
