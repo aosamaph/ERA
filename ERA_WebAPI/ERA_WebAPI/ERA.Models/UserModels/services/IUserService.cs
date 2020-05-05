@@ -103,7 +103,6 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
         {
             var user = await _userManger.FindByEmailAsync(model.Email);
 
-            var role = await _userManger.GetRolesAsync(user);
 
             if (user == null)
             {
@@ -114,6 +113,7 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
                 };
             }
 
+            var role = await _userManger.GetRolesAsync(user);
             var result = await _userManger.CheckPasswordAsync(user, model.Password);
 
             if (!result)
