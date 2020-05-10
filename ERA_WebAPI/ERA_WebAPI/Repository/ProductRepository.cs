@@ -56,7 +56,7 @@ namespace ERA_WebAPI.Repository
         //[Route("api/controller/{name:alpha}")] fel controller
         public List<Product> GetByName(string name)
         {
-            var product = DB.Products.Include("Image").Where(p => p.ProductName.Contains(name) && p.IsDeleted != true); 
+            var product = DB.Products.Include("Image").Where(p => p.ProductName.StartsWith(name) && p.IsDeleted != true); 
            
             return product.ToList();
         }
@@ -77,7 +77,9 @@ namespace ERA_WebAPI.Repository
         public Product DeleteImage(ProductImage image)
         {
             var p = GetByID(image.ProductID);
-            var trackedItem = p.Image.SingleOrDefault(pp => pp.ProductID == image.ProductID && pp.ImagePath == image.ImagePath);
+            var trackedItem = p.Image.SingleOrDefault
+                (pp => pp.ProductID == image.ProductID && 
+                pp.ImagePath == image.ImagePath);
             if (trackedItem == null)
                 return null;
             p.Image.Remove(trackedItem);

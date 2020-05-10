@@ -139,10 +139,10 @@ namespace ERA_WebAPI.Controllers
             if (product == null)
                 return NotFound();
             else
-                return Ok(product);
+                return Ok(image);
         }
 
-        [HttpDelete("image")]
+        [HttpPost("image")]
         [Authorize(Roles = "admin")]
         public ActionResult<Product> DeleteImages(ProductImage image)
         {
@@ -150,7 +150,7 @@ namespace ERA_WebAPI.Controllers
             if (product == null)
                 return NotFound();
             else
-                return Ok(product);
+                return Ok(image);
         }
 
     }

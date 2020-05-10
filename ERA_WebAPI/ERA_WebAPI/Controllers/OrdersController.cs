@@ -132,7 +132,7 @@ namespace ERA_WebAPI.Controllers
         }
         // PUT: api/Cart/123
         // User can Add product to his cart
-        [HttpPost("Cart/{user}")]
+        [HttpPost("Cart")]
         [Authorize(Roles = "user")]
         public ActionResult<Order> AddToCart([FromBody] OrderDetails item)
         {
@@ -145,7 +145,7 @@ namespace ERA_WebAPI.Controllers
         }
         // PUT: api/Cart/123
         // User can Remove product from his cart
-        [HttpDelete("Cart/{user}")]
+        [HttpPut("Cart/remove")]
         [Authorize(Roles = "user")]
         public ActionResult<Order> RemoveFromCart([FromBody] OrderDetails item)
         {
@@ -158,7 +158,7 @@ namespace ERA_WebAPI.Controllers
         }
         // PUT: api/Cart/123
         // User can Remove product from his cart
-        [HttpPut("Cart/{user}")]
+        [HttpPut("Cart")]
         [Authorize(Roles = "user")]
         public ActionResult<Order> ChangeQuantity([FromBody] OrderDetails item)
         {

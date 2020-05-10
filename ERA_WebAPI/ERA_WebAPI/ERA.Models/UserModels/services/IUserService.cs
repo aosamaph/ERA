@@ -20,18 +20,19 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
         Task<userResponseMessage> GetUserAsync(string Id);
         Task<userResponseMessage> EditUserAsync(AppUser user, string id);
     }
-
+   // CreateUserCart
     public class userService : IUserService
     {
         private UserManager<AppUser> _userManger;
         private IConfiguration _configuration;
-        
 
-        public userService(UserManager<AppUser> userManager, IConfiguration configuration)
+        private IOrderRepository _orderRepository;
+
+        public userService(UserManager<AppUser> userManager, IConfiguration configuration,IOrderRepository orderRepository)
         {
             _userManger = userManager;
             _configuration = configuration;
-            
+            _orderRepository = orderRepository;
         }
 
 
@@ -65,6 +66,7 @@ namespace ERA_WebAPI.ERA.Models.UserModels.services
             {
                 //it is for add role
                await _userManger.AddToRoleAsync(user, "user");
+                _orderRepository.CreateUserCart(user.Id);
 
                 //for confirmEmail
                 #region confirmEmail
