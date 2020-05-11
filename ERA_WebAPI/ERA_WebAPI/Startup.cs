@@ -71,6 +71,7 @@ namespace ERA_WebAPI
                 options.Password.RequireDigit = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequiredLength = 5;
+                options.Password.RequireNonAlphanumeric = false;
             }).AddEntityFrameworkStores<ERAContext>();
 
             services.AddAuthentication(auth =>

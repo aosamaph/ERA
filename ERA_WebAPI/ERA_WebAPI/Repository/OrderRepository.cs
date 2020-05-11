@@ -224,11 +224,6 @@ namespace ERA_WebAPI.Repository
         {
             foreach (var item in order.OrderDetails)
             {
-                if (item.NumberOfItems > item.Product.UnitsInStock)
-                    return false;
-            }
-            foreach (var item in order.OrderDetails)
-            {
                 item.Product.UnitsInStock += item.NumberOfItems;
             }
             return true;

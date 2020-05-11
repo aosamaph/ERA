@@ -98,9 +98,9 @@ namespace ERA_WebAPI.Controllers
         {
 
             var products = productRepository.GetByName(name);
-            if (products.Count == 0)
-                return NotFound();
-            else
+            //if (products.Count == 0)
+            //    return NotFound();
+            //else
                 return Ok(products);
 
         }
