@@ -93,7 +93,7 @@ namespace ERA_WebAPI.Controllers
         }
 
         [HttpGet("{name:alpha}")]
-        [Authorize(Roles = "admin, user")]
+        //[Authorize(Roles = "admin, user")]
         public ActionResult<List<Product>> GetProductByName(string name)
         {
 
